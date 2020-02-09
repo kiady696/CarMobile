@@ -35,8 +35,13 @@ export class AuthenticationService {
            } )*/
 
     this.authState.next(false);
-    
-          
+   }
+
+   login(response:any){
+     var dummy_response = {
+       token: response.data.token
+     };
+     console.log(response);
    }
 
 }
