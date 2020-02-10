@@ -1,3 +1,4 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -12,10 +13,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import{AuthenticationService}from './services/authentication.service';
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
+    ReactiveFormsModule,
+    FormsModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,

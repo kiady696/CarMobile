@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 
 
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -50,7 +51,7 @@ export class AppComponent {
         if(state){
           this.router.navigate(['list']);
         }else{
-          this.router.navigate(['login']);
+          this.router.navigate(['register']);
         }
       })      
     });
