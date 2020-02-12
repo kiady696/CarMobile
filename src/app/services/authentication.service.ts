@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController, Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
+import {HttpService} from '../services/http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class AuthenticationService {
     private router: Router,
     private platform: Platform,
     public toastController: ToastController,
+    public httpService: HttpService
   ) {
     this.platform.ready().then( () => {
       /*ty ifLoggedIn() ty miverifier anle token anle olona oe efa misy
@@ -23,6 +25,8 @@ export class AuthenticationService {
       this.ifLoggedIn();
     });
    }
+
+   
 
    ifLoggedIn(){
     // 1 - miantso service mverifier token any am base | WEBSERVICE
@@ -38,10 +42,22 @@ export class AuthenticationService {
    }
 
    login(response:any){
-     var dummy_response = {
-       token: response.data.token
-     };
-     console.log(response);
+     //VARIABLE POUR STOCKER LE TOKEN ET L'EXPIRATION
+     if(response.data!=null){
+        var token = response.data.token;
+        //GENERER L'EXPIRATION DU TOKEN DANS STORAGE
+        //PASSER LE TOKEN dans ts les pages tant qu'il n'est pas expiré
+          //Sauvegarder token et tokenExpiration dans stockage
+          //Creer fonction qui verifie que le token n'est pas encore expiré
+
+        this.router.navigate(['list']);
+     }else{
+      console.log(response.data.token);
+     }
+     
+     
+
+     
    }
 
 }

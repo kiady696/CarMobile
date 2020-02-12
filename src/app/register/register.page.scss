@@ -5,4 +5,18 @@ ion-item{
 
 ion-button{
     --background: #062f77;
+    --align : center;
 }
+ion-list{
+   --padding-top: 0px;
+   --padding-bottom: 0px;
+}
+
+.list-md{
+    padding: unset;
+}
+
+ion-label{
+    --font-size: 10%;
+}
+

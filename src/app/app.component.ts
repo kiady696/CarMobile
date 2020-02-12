@@ -51,7 +51,7 @@ export class AppComponent {
         if(state){
           this.router.navigate(['list']);
         }else{
-          this.router.navigate(['register']);
+          this.router.navigate(['login']);
         }
       })      
     });

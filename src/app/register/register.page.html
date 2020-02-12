@@ -15,7 +15,7 @@
         <ion-row color="primary" justify-content-center>
           <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
             <div text-center>
-              <h3>Create your account!</h3>
+              <h3>Create your account here</h3>
             </div>
             <div padding>
 
@@ -65,35 +65,26 @@
                         </ng-container>
                       </div>
 
+                    <ion-item>
+                      <ion-label>Sexe</ion-label>
                       <ion-list>
-                          <ion-radio-group
-                            allow-empty-selection = "false"
-                            name="radio-group"
-                            (ionChange)="radioGroupChange($event)"
-                          >
-                            <ion-list-header>
-                              <ion-label>Sexe</ion-label>
-                            </ion-list-header>
-                        
-                            <ion-item 
-                            *ngFor="let item of radio_list" 
-                            (ionFocus)="radioFocus()"
-                            (ionSelect)="radioSelect($event)"
-                            (ionBlur)="radioBlur()"
-                            >
-                              <ion-label>{{item.text}}</ion-label>
-                              <ion-radio 
-                              slot="start" 
-                              name="{{item.name}}" 
-                              value="{{item.value}}" 
-                              checked="{{item.checked}}" 
-                              color="{{item.color}}" 
-                              disabled="{{item.disabled}}"
-                              ></ion-radio>
+                        <ion-item>
+                          <ion-radio-group allow-empty-selection = "false" type="string" formControlName="sexe">
+                            <ion-item *ngFor="let item of radio_list">
+                                <ion-label>{{item.text}}</ion-label>
+                                  <ion-radio 
+                                  
+                                  name="{{item.name}}" 
+                                  value="{{item.value}}" 
+                                  
+                                 
+                                  ></ion-radio>
                             </ion-item>
-                        
                           </ion-radio-group>
-                        </ion-list>
+                        </ion-item>
+                      </ion-list>
+                    </ion-item>
+                      
 
                         <ion-item>
                             <ion-input type="text" formControlName="ville" placeholder="Your current town" class="form-controll" required></ion-input>
@@ -107,7 +98,7 @@
                           </div>
 
                           <ion-item>
-                              <ion-input type="text" formControlName="tel" placeholder="Your current town" class="form-controll" required></ion-input>
+                              <ion-input type="text" formControlName="tel" placeholder="Your current tel" class="form-controll" required></ion-input>
                             </ion-item>
                             <div class="validation-errors">
                               <ng-container *ngFor="let validation of validation_messages.tel">
@@ -142,7 +133,7 @@
               
             </div>
             <div padding>
-                <ion-button  class="submit-btn" type="submit"  [disabled]="!validations_form.valid">Register</ion-button>
+              <ion-button  class="submit-btn" type="submit" >Register</ion-button>
                 <label class="error-message">{{errorMessage}}</label>
                 <label class="success-message">{{successMessage}}</label>
             </div>

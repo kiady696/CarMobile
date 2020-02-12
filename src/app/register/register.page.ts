@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { AuthenticationService } from '../services/authentication.service';
+import {HttpService} from '../services/http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -23,39 +24,69 @@ export class RegisterPage implements OnInit {
       { type: 'minlength', message: 'Password must be at least 5 characters long.' }
     ],
     'name': [
-      { type: 'required', message: 'Email is required.' },
-      { type: 'pattern', message: 'Enter a valid email.' }
+      { type: 'required', message: 'Name is required.' },
+      { type: 'pattern', message: 'Enter a valid name.' }
     ],
     'forname': [
-      { type: 'required', message: 'Email is required.' },
-      { type: 'pattern', message: 'Enter a valid email.' }
+      { type: 'required', message: 'Forname is required.' },
+      { type: 'pattern', message: 'Enter a valid forname.' }
     ],
     'password2': [
-      { type: 'required', message: 'Email is required.' },
-      { type: 'pattern', message: 'Enter a valid email.' }
+      { type: 'required', message: 'Confirmation is required.' },
+      { type: 'pattern', message: 'Enter a valid password.' }
     ],
     'birthday': [
-      { type: 'required', message: 'Email is required.' },
-      { type: 'pattern', message: 'Enter a valid email.' }
+      { type: 'required', message: 'Birthday is required.' },
+      { type: 'pattern', message: 'Enter a valid Birthday.' }
     ],
     'tel': [
-      { type: 'required', message: 'Email is required.' },
-      { type: 'pattern', message: 'Enter a valid email.' }
+      { type: 'required', message: 'Number is required.' },
+      { type: 'pattern', message: 'Enter a valid number.' }
     ],
     'ville': [
-      { type: 'required', message: 'Email is required.' },
-      { type: 'pattern', message: 'Enter a valid email.' }
+      { type: 'required', message: 'Hometown is required.' },
+      { type: 'pattern', message: 'Enter a valid hometown.' }
     ],
+    'sexe' : [
+      { type: 'required', message: 'Hometown is required.' },
+      { type: 'pattern', message: 'Enter a valid hometown.' }
+    ]
   };
 
 
   constructor(
-    private authService: AuthenticationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private httpService: HttpService,
+    private router:Router
   ) { }
 
   tryRegister(value){
     console.log(value);
+    //mregrouper anle data
+      let data={
+        "email": value.email,
+        "nom":value.name,
+        "prenom": value.forname,
+        "dateNaissanceInserer":value.birthday,
+        "sexe": value.sexe,
+        "ville": value.ville,
+        "tel" : value.tel,
+        "mdp" : value.password1,
+        "confirmMdp": value.password2       
+      }
+      //mandefa anle information anle client
+      this.httpService.callPostService(data,'Personne/Inscription').subscribe((res) => {
+        this.errorMessage=res.message;
+        if(res.data!=null){
+          console.log('inscription reussi , vos donnees envoyées:');
+          console.log(data);
+          this.successMessage = res.message;
+          this.router.navigate(['login']);
+        }else{
+          console.log('La reponse :');
+          console.log(res);
+        } 
+      })
   }
 
   ngOnInit() {
@@ -88,24 +119,18 @@ export class RegisterPage implements OnInit {
       tel : new FormControl('', Validators.compose([
         Validators.minLength(5),
         Validators.required
-
       ])),
       password2 : new FormControl('', Validators.compose([
+        Validators.minLength(5),
+        Validators.required
+      ])),
+      sexe : new FormControl('', Validators.compose([
         Validators.minLength(5),
         Validators.required
       ]))
 
     });
   }
-
-
-
-
-
-
-
-
-
 
   defaultSelectedRadio = "M";
   //Get value on ionChange on IonRadioGroup
@@ -116,37 +141,22 @@ export class RegisterPage implements OnInit {
   radio_list = [
     {
       id: '1',
-      name: 'sexe_list',
-      value: 'M',
+      name: 'sexe',
+      value: 'H',
       text: 'M',
       disabled: false,
-      checked: false,
-      color: 'primary'
+      
+      color: 'secondary'
     }, {
       id: '2',
-      name: 'sexe_list',
+      name: 'sexe',
       value: 'F',
       text: 'F',
       disabled: false,
-      checked: false,
+      
       color: 'secondary'
     }
   ];
  
-  radioGroupChange(event) {
-    console.log("radioGroupChange",event.detail);
-    this.selectedRadioGroup = event.detail;
-  }
- 
-  radioFocus() {
-    console.log("radioFocus");
-  }
-  radioSelect(event) {
-    console.log("radioSelect",event.detail);
-    this.selectedRadioItem = event.detail;
-  }
-  radioBlur() {
-    console.log("radioBlur");
-  }
-
+  
 }
