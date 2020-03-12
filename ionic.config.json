@@ -1,5 +1,7 @@
 {
   "name": "CotisseMobile",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
