@@ -49,13 +49,13 @@ export class LoginPage implements OnInit {
   loginUser(value){
     console.log(value.email+' & '+value.password);
       //RECUPERATION DONNEES DE LOGIN
-      let postData = {
+      var postData = { //raw json
         "email": value.email,
-        "mdp":value.password
+        "pwd":value.password
       }
       try{
         //MIANTSO NY PERSONNE/LOGIN AMZAY ETO
-        this.httpService.callPostService(postData,'Personne/Login').subscribe((data) => {
+        this.httpService.callPostService(postData,'Utilisateur/login').subscribe((data) => {
         console.log('eto ambany eto le nalefa tany am webservice');
         console.log(data);
         this.errorMessage = data.message;

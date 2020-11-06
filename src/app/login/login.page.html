@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,7 +22,7 @@
                       {{ validation.message }}
                     </div>
                   </ng-container>
-                </div>
+              </div>
 
               <ion-item>
                 <ion-input type="password" formControlName="password" placeholder="yourPassword" class="form-controll" required></ion-input>
@@ -33,7 +33,7 @@
                       {{ validation.message }}
                     </div>
                   </ng-container>
-                </div>
+              </div>
             </div>
             <div class="boutonLogin">
               <ion-button class="submit-btn" type="submit" [disabled]="validations_form.invalid"  >Login</ion-button>             
@@ -51,8 +51,8 @@
 
     <ion-row>
         <div text-center>
-      If you don't have an account, please <a routerLink='/register'>
-        register</a> first!
+      If you don't have an account yet, please <a routerLink='/register'>
+        register</a> first! ;) -Kiady
         </div>
     </ion-row>
   </ion-content>

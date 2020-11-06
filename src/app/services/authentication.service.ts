@@ -4,6 +4,8 @@ import { ToastController, Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import {HttpService} from '../services/http.service';
 
+import { Storage } from '@ionic/storage';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,7 +17,10 @@ export class AuthenticationService {
     private router: Router,
     private platform: Platform,
     public toastController: ToastController,
-    public httpService: HttpService
+    public httpService: HttpService , 
+
+    private storage: Storage
+
   ) {
     this.platform.ready().then( () => {
       /*ty ifLoggedIn() ty miverifier anle token anle olona oe efa misy
@@ -29,7 +34,11 @@ export class AuthenticationService {
    
 
    ifLoggedIn(){
-    // 1 - miantso service mverifier token any am base | WEBSERVICE
+    // 1 - Raha tsy bola misy ninina ao @ Sqlite Local de tsy maintsy mlogin izy
+    if(this.storage.get('token')){
+
+    }
+
     // 2 - Mamerina Promise resultatToken eto
     /* 3 - resultatToken.then((response) => {
               if(response){
@@ -43,8 +52,9 @@ export class AuthenticationService {
 
    login(response:any){
      //VARIABLE POUR STOCKER LE TOKEN ET L'EXPIRATION
-     if(response.data!=null){
-        var token = response.data.token;
+     if(response.data.status){
+        var token = response.data.email;
+        console.log(token);
         //GENERER L'EXPIRATION DU TOKEN DANS STORAGE
         //PASSER LE TOKEN dans ts les pages tant qu'il n'est pas expiré
           //Sauvegarder token et tokenExpiration dans stockage
@@ -52,7 +62,7 @@ export class AuthenticationService {
 
         this.router.navigate(['list']);
      }else{
-      console.log(response.data.token);
+      console.log("Tsy namerina ninina ilay check anaty login ws oo");
      }
      
      
