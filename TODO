@@ -1,0 +1,21 @@
+
+    LOGIN
+    I- Miditra voalohany indrindra ilay olona 
+        1- authState = false par défaut -> eo @ page Login 
+        2- Manao login ilay olona 
+            2-1) Efa inscrit anaty base serveur 
+                -> Mamorona token LOCAL ao @ sqlite storage
+                -> Update token any @ base serveur
+                -> Mverifier an'ny fitovizan'ireo ( sqlite - base serveur ) 
+                   ireo isaky ny manao action important
+                -> rehefa mitovy ny local sy serveur 
+                    -> authState = true;
+                    -> Mi-acceder page liste des véhicules 
+
+            2-2) Tsy mbola inscrit ilay olona
+                -> Mandeha page register
+
+        3- Manao register ilay olona (IDEM 2-1) après validations donnèes)
+
+
+            
