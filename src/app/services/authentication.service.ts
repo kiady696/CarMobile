@@ -31,11 +31,11 @@ export class AuthenticationService {
    }
 
     checkToken(token){
-      this.httpService.callService('Utilisateur/token').subscribe((data) => {
+      this.httpService.callService('Utilisateur/token/id/').subscribe((data) => {
         console.log(data);
         var token = data;
       });
-      // IF token MITOVY @'NY TOKEN ANY AMIN'NY BASE SERVEUR -> return true
+      // IF token MI-EXISTE LOCAL ARY MITOVY @'NY TOKEN ANY AMIN'NY BASE SERVEUR -> return true
 
      return true;
     }
