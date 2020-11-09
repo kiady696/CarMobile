@@ -22,32 +22,45 @@ export class AuthenticationService {
     private storage: Storage
 
   ) {
-    this.platform.ready().then( () => {
-      /*ty ifLoggedIn() ty miverifier anle token anle olona oe efa misy
-      any am base ve | Tsy mbola lany date ve
-      */
-      
-      this.ifLoggedIn();
-    });
+      this.platform.ready().then( () => {
+        /*ty ifLoggedIn() ty miverifier anle token anle olona oe efa misy
+        any am base ve | Tsy mbola lany date ve
+        */
+        this.ifLoggedIn();
+      });
    }
+
+    checkToken(token){
+      this.httpService.callService('Utilisateur/token').subscribe((data) => {
+        console.log(data);
+        var token = data;
+      });
+      // IF token MITOVY @'NY TOKEN ANY AMIN'NY BASE SERVEUR -> return true
+
+     return true;
+    }
 
    
 
-   ifLoggedIn(){
-    // 1 - Raha tsy bola misy ninina ao @ Sqlite Local de tsy maintsy mlogin izy
-    if(this.storage.get('token')){
+    ifLoggedIn(){
+      // 1 - Raha tsy bola misy ninina ao @ Sqlite Local de tsy maintsy mlogin izy
+      /* if( */// Fonction mverifier fa mi-existe local ny token ary mitovy @'ny any am Mysql){
+      this.storage.ready().then(
+        () => {
+          let token = this.storage.get('token');
+          if(this.checkToken(token)){
 
-    }
-
-    // 2 - Mamerina Promise resultatToken eto
-    /* 3 - resultatToken.then((response) => {
-              if(response){
-                this.authState.next(true);
-                this.router.navigate(['home']);
-              }
-           } )*/
-
-    this.authState.next(false);
+          }
+        }
+      )
+      // 2 - Mamerina Promise resultatToken eto
+      /* 3 - resultatToken.then((response) => {
+                if(response){
+                  this.authState.next(true);
+                  this.router.navigate(['home']);
+                }
+            } )*/
+      this.authState.next(false);
    }
 
    login(response:any){
