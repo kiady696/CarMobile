@@ -31,6 +31,9 @@ export class AuthenticationService {
    }
 
     checkToken(token){
+      
+      let personneId = this.storage.get('idPersonne')
+
       this.httpService.callService('Utilisateur/token/id/').subscribe((data) => {
         console.log(data);
         var token = data;
@@ -46,11 +49,13 @@ export class AuthenticationService {
       // 1 - Raha tsy bola misy ninina ao @ Sqlite Local de tsy maintsy mlogin izy
       /* if( */// Fonction mverifier fa mi-existe local ny token ary mitovy @'ny any am Mysql){
       this.storage.ready().then(
-        () => {
-          let token = this.storage.get('token');
-          if(this.checkToken(token)){
+        () => { //onfullfilled ny eto 
+          this.storage.get('token').then()
+            
 
-          }
+          //  if(this.checkToken(token)){
+
+          // }  
         }
       )
       // 2 - Mamerina Promise resultatToken eto
@@ -60,7 +65,7 @@ export class AuthenticationService {
                   this.router.navigate(['home']);
                 }
             } )*/
-      this.authState.next(false);
+      //this.authState.next(false);
    }
 
    login(response:any){
