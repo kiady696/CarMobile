@@ -23,54 +23,65 @@ export class AuthenticationService {
 
   ) {
       this.platform.ready().then( () => {
-        /*ty ifLoggedIn() ty miverifier anle token anle olona oe efa misy
-        any am base ve | Tsy mbola lany date ve
-        */
+        this.storage.set('token' , "ABBA");
         this.ifLoggedIn();
       });
    }
 
-    checkToken(token){
-      
+    checkToken(token){  
       let personneId = this.storage.get('idPersonne')
-
-      this.httpService.callService('Utilisateur/token/id/').subscribe((data) => {
+      this.httpService.callService('Utilisateur/token/id/'+personneId).subscribe((data) => {
         console.log(data);
         var token = data;
       });
-      // IF token MI-EXISTE LOCAL ARY MITOVY @'NY TOKEN ANY AMIN'NY BASE SERVEUR -> return true
-
+      // IF token MI-EXISTE LOCAL ARY MITOVY @'NY TOKEN ANY AMIN'NY BASE SERVEUR -> return tru
      return true;
     }
 
-   
-
     ifLoggedIn(){
-      // 1 - Raha tsy bola misy ninina ao @ Sqlite Local de tsy maintsy mlogin izy
-      /* if( */// Fonction mverifier fa mi-existe local ny token ary mitovy @'ny any am Mysql){
       this.storage.ready().then(
-        () => { //onfullfilled ny eto 
-          this.storage.get('token').then()
+        () => { 
+          //onfullfilled ny ato 
+          this.storage.get('token').then( (val) => {// TSY MAMOAKA ERREUR ITO FA MAMOAKA EXCEPTION TYPEERROR MILA CATCHENA raha tsy mbola misy 'key' value 'token' value 
+              //onfullfilled ny ato
+              // TESTS FOTSINY LOA
+              /* if(this.checkToken(localToken)){ //raha mitovy @ any amin'ilay base de donnée ilay token local
+
+              } */
+
+              //this.authState.next(false);
+              console.log('le token local est: '+val);
+              this.authState.next(true);
+
+            
+          }, function error(localToken){
+            console.log('erreur getting local token in sqlite storage');
+
+          }).catch(
+            // Promesse rejetée
+            function() { 
+              console.log("getting local token throwed an Exception ");
+            });
             
 
           //  if(this.checkToken(token)){
 
           // }  
         }
-      )
-      // 2 - Mamerina Promise resultatToken eto
-      /* 3 - resultatToken.then((response) => {
-                if(response){
-                  this.authState.next(true);
-                  this.router.navigate(['home']);
-                }
-            } )*/
-      //this.authState.next(false);
-   }
+      ).catch(
+        // Promesse rejetée
+        function() { 
+          console.log("Storage not ready (Promise in local storage readyness)");
+        });
 
-   login(response:any){
-     //VARIABLE POUR STOCKER LE TOKEN ET L'EXPIRATION
-     if(response.data.status){
+  }
+
+
+
+
+    login(response:any){
+      //VARIABLE POUR STOCKER LE TOKEN ET L'EXPIRATION
+      if(response.data.status){
         var token = response.data.email;
         console.log(token);
         //GENERER L'EXPIRATION DU TOKEN DANS STORAGE
@@ -79,13 +90,11 @@ export class AuthenticationService {
           //Creer fonction qui verifie que le token n'est pas encore expiré
 
         this.router.navigate(['list']);
-     }else{
-      console.log("Tsy namerina ninina ilay check anaty login ws oo");
-     }
-     
-     
+      }else{
+        console.log("Tsy namerina ninina ilay check anaty login ws oo");
+      }
+    }
 
-     
-   }
+
 
 }
