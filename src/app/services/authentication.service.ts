@@ -28,7 +28,7 @@ export class AuthenticationService {
       });
    }
 
-    checkToken(token){  
+    getToken(idUser){  
       let personneId = this.storage.get('idPersonne')
       this.httpService.callService('Utilisateur/token/id/'+personneId).subscribe((data) => {
         console.log(data);
@@ -51,7 +51,15 @@ export class AuthenticationService {
 
               //this.authState.next(false);
               console.log('le token local est: '+val);
-              this.authState.next(true);
+              var tokenVrai = 'kiady';
+              if(val != tokenVrai){
+                this.authState.next(false);
+
+
+              }else{
+                this.authState.next(true);
+              }
+              
 
             
           }, function error(localToken){
