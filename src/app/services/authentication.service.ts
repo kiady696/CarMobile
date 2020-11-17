@@ -29,8 +29,7 @@ export class AuthenticationService {
    }
 
     getToken(idUser){  
-      let personneId = this.storage.get('idPersonne')
-      this.httpService.callService('Utilisateur/token/id/'+personneId).subscribe((data) => {
+      this.httpService.callService('Utilisateur/token/id/'+idUser).subscribe((data) => {
         console.log(data);
         var token = data;
       });
@@ -42,6 +41,26 @@ export class AuthenticationService {
       this.storage.ready().then(
         () => { 
           //onfullfilled ny ato 
+
+          //MI-VERIFIER idUser RAHA EFA MISY VE 
+          this.storage.get('idUser').then(
+            (id) => {
+              console.log('L\'id stocké était : '+ id);
+              if(id != ''){
+                this.authState.next(true);
+                return;
+              }else{
+                this.authState.next(false);
+                return;
+              }
+
+
+            } , function error (id){
+              console.log('L\'id stocké était : '+ id);
+            }
+          )
+
+          // MI-VERIFIER TOKEN HOE MITOVY VE 
           this.storage.get('token').then( (val) => {// TSY MAMOAKA ERREUR ITO FA MAMOAKA EXCEPTION TYPEERROR MILA CATCHENA raha tsy mbola misy 'key' value 'token' value 
               //onfullfilled ny ato
               // TESTS FOTSINY LOA
