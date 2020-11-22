@@ -21,20 +21,62 @@ export class AuthenticationService {
 
     private storage: Storage
 
-  ) {
-      this.platform.ready().then( () => {
-        this.storage.set('token' , "ABBA");
-        this.ifLoggedIn();
-      });
-   }
+  ){
+    this.platform.ready().then( () => {
+    //Check idUSer then token , else , log in
+    this.ifLoggedIn();
+    });
+  }
+
+    checkToken(tokenBase){
+      // MI-VERIFIER TOKEN HOE MITOVY VE 
+      this.storage.get('token').then( (val) => {// TSY MAMOAKA ERREUR ITO FA MAMOAKA EXCEPTION TYPEERROR MILA CATCHENA raha tsy mbola misy 'key' value 'token' value 
+      //onfullfilled ny ato
+      // TESTS FOTSINY LOA
+      /* if(this.checkToken(localToken)){ //raha mitovy @ any amin'ilay base de donnée ilay token local
+
+      } */
+
+      //this.authState.next(false);
+      console.log('le token local est: '+val);
+      var tokenVrai = 'kiady';
+      if(val != tokenVrai){
+        this.authState.next(false);
+
+
+      }else{
+        this.authState.next(true);
+      }
+
+      return false;
+      
+
+    
+      }, function error(localToken){
+        console.log('erreur getting local token in sqlite storage');
+        
+
+      }).catch(
+        // Promesse rejetée
+        function() { 
+          console.log("getting local token throwed an Exception ");
+        });
+        
+
+        //  if(this.checkToken(token)){
+
+        // }  
+        return false;
+
+    }
 
     getToken(idUser){  
+      let token = null;
       this.httpService.callService('Utilisateur/token/id/'+idUser).subscribe((data) => {
-        console.log(data);
-        var token = data;
+      console.log(data);
+      token = data;
       });
-      // IF token MI-EXISTE LOCAL ARY MITOVY @'NY TOKEN ANY AMIN'NY BASE SERVEUR -> return tru
-     return true;
+    return token;
     }
 
     ifLoggedIn(){
@@ -46,54 +88,22 @@ export class AuthenticationService {
           this.storage.get('idUser').then(
             (id) => {
               console.log('L\'id stocké était : '+ id);
-              if(id != ''){
-                this.authState.next(true);
-                return;
-              }else{
+              if(id == '' || id == null){
                 this.authState.next(false);
                 return;
+              }else{ // raha efa nisy idUser tao de verifiena ndray ny token 
+                let tokenBase = this.getToken(id);
+                console.log(tokenBase.tokenString);
+                if(this.checkToken(tokenBase)){ // raha ni-existe , nitovy t@ tokenBase sy tsy mbola lany date ilay token local tao
+                  this.authState.next(true);
+                }else{
+                  this.authState.next(false);
+                }   
               }
-
-
             } , function error (id){
               console.log('L\'id stocké était : '+ id);
             }
           )
-
-          // MI-VERIFIER TOKEN HOE MITOVY VE 
-          this.storage.get('token').then( (val) => {// TSY MAMOAKA ERREUR ITO FA MAMOAKA EXCEPTION TYPEERROR MILA CATCHENA raha tsy mbola misy 'key' value 'token' value 
-              //onfullfilled ny ato
-              // TESTS FOTSINY LOA
-              /* if(this.checkToken(localToken)){ //raha mitovy @ any amin'ilay base de donnée ilay token local
-
-              } */
-
-              //this.authState.next(false);
-              console.log('le token local est: '+val);
-              var tokenVrai = 'kiady';
-              if(val != tokenVrai){
-                this.authState.next(false);
-
-
-              }else{
-                this.authState.next(true);
-              }
-              
-
-            
-          }, function error(localToken){
-            console.log('erreur getting local token in sqlite storage');
-
-          }).catch(
-            // Promesse rejetée
-            function() { 
-              console.log("getting local token throwed an Exception ");
-            });
-            
-
-          //  if(this.checkToken(token)){
-
-          // }  
         }
       ).catch(
         // Promesse rejetée
