@@ -68,7 +68,7 @@ export class AuthenticationService {
         // }  
         return false;
 
-    }
+    } 
 
     getToken(idUser){  
       let token = null;
