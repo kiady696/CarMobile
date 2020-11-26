@@ -75,6 +75,7 @@ export class AuthenticationService {
       this.httpService.callService('Utilisateur/token/id/'+idUser).subscribe((data) => {
       console.log(data);
       token = data;
+      //hehe
       });
     return token;
     }
